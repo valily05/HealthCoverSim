@@ -1,122 +1,499 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+import familyHero from "./assets/family-hero.png";
+import logo from "./assets/logo.png";
+import watermarkLogo from "./assets/watermark-logo.png";
 
+import calculatorIcon from "./assets/calculator.png";
+import safeIcon from "./assets/safe.png";
+import cashIcon from "./assets/cash.png";
+
+const features = [
+  {
+    icon: calculatorIcon,
+    title: "Quick & Easy Estimates",
+    text: "Get an instant estimate based on clear pricing rules.",
+  },
+  {
+    icon: safeIcon,
+    title: "Compare Cover Options",
+    text: "See hospital and extras cover options side by side.",
+  },
+  {
+    icon: cashIcon,
+    title: "Save and Manage",
+    text: "Keep, edit, and compare your quotes anytime.",
+  },
+];
+
+const steps = [
+  {
+    number: "01.",
+    icon: "▣",
+    title: "Enter Your Details",
+    description:
+      "Enter your name, cover type, age and hospital cover history.",
+  },
+  {
+    number: "02.",
+    icon: "⌁",
+    title: "Choose Your Cover Options",
+    description:
+      "Select your hospital and extras cover levels from the available options.",
+  },
+  {
+    number: "03.",
+    icon: "◉",
+    title: "View Your Estimate",
+    description:
+      "Choose Monthly or Yearly and see how your estimated premium is calculated.",
+  },
+  {
+    number: "04.",
+    icon: "▣",
+    title: "Save and Manage",
+    description:
+      "Save your quote so you can view, edit, update or delete it later.",
+  },
+];
+
+function HealthCoverLogo() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="brand">
+      <img
+        className="brand-mark-image"
+        src={logo}
+        alt=""
+      />
 
-      <div className="ticks"></div>
+      <div className="brand-copy">
+        <strong>
+          HealthCover<span>Sim</span>
+        </strong>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <small>INSURANCE</small>
+      </div>
+    </div>
+  );
 }
 
-export default App
+function Arrow() {
+  return <span className="arrow">→</span>;
+}
+
+function FeatureIcon({ src, alt }) {
+  return (
+    <div className="feature-icon">
+      <img src={src} alt={alt} />
+    </div>
+  );
+}
+
+function StepVisual({ index }) {
+  if (index === 0) {
+    return (
+      <div className="mini-form">
+        <span />
+        <span />
+        <span />
+      </div>
+    );
+  }
+
+  if (index === 1) {
+    return (
+      <div className="mini-cover">
+        <div className="cover-shield">
+          ✓
+        </div>
+      </div>
+    );
+  }
+
+  if (index === 2) {
+    return (
+      <div className="mini-estimate">
+        <span className="mini-price">$135</span>
+        <span className="mini-line" />
+        <span className="mini-line short" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="mini-save">
+      <span>♡</span>
+    </div>
+  );
+}
+
+export default function App() {
+  const activateStep = (event) => {
+    const board = event.currentTarget.parentElement;
+
+    board
+      .querySelectorAll(".step-card")
+      .forEach((card) => {
+        card.classList.remove("is-active");
+        card.setAttribute("aria-expanded", "false");
+      });
+
+    event.currentTarget.classList.add("is-active");
+    event.currentTarget.setAttribute("aria-expanded", "true");
+  };
+
+  const handleStepHover = (event) => {
+    if (
+      window.matchMedia(
+        "(hover: hover) and (pointer: fine)"
+      ).matches
+    ) {
+      activateStep(event);
+    }
+  };
+
+  return (
+    <div className="page">
+
+      {/* ================= HEADER ================= */}
+
+      <header className="site-header">
+
+        {/* Logo */}
+        <a
+          className="logo-link"
+          href="#home"
+          aria-label="HealthCoverSim home"
+        >
+          <HealthCoverLogo />
+        </a>
+
+        {/* Centered navigation */}
+        <nav
+          className="nav"
+          aria-label="Main navigation"
+        >
+          <a
+            className="active"
+            href="#home"
+          >
+            Home
+          </a>
+
+          <a href="#quote">
+            Get a Quote
+          </a>
+
+          <a href="#quotes">
+            My Quotes
+          </a>
+
+          <a href="#about">
+            About
+          </a>
+        </nav>
+
+      </header>
+
+      {/* ================= MAIN ================= */}
+
+      <main id="home">
+
+        {/* ================= HERO ================= */}
+
+        <section className="hero">
+
+          <img
+            className="hero-photo"
+            src={familyHero}
+            alt=""
+          />
+
+          <div className="hero-content">
+
+            <p className="eyebrow">
+              PROTECTING WHAT MATTERS MOST
+            </p>
+
+            <h1>
+              Plan Your
+              <br />
+              <span>Health Cover</span>
+              <br />
+              With Confidence.
+            </h1>
+
+            <p className="hero-description">
+              Estimate your health insurance costs quickly and
+              <br className="desktop-break" />
+              make informed choices for you and your family.
+            </p>
+
+            <a
+              className="primary-button"
+              href="#quote"
+            >
+              Get a Quote
+              <Arrow />
+            </a>
+
+          </div>
+
+        </section>
+
+        {/* ================= FEATURE STRIP ================= */}
+
+        <section
+          className="feature-strip"
+          aria-label="HealthCoverSim features"
+        >
+
+          {features.map((feature) => (
+            <article
+              className="feature"
+              key={feature.title}
+            >
+
+              <FeatureIcon
+                src={feature.icon}
+                alt=""
+              />
+
+              <div>
+                <h3>
+                  {feature.title}
+                </h3>
+
+                <p>
+                  {feature.text}
+                </p>
+              </div>
+
+            </article>
+          ))}
+
+        </section>
+
+        {/* ================= ABOUT ================= */}
+
+        <section
+          className="about-section"
+          id="about"
+        >
+
+          {/* Watermark */}
+          <img
+            className="about-watermark"
+            src={watermarkLogo}
+            alt="12321"
+            aria-hidden="true"
+          />
+
+          <div className="about-copy">
+
+            <p className="section-eyebrow">
+              WHAT IS HEALTHCOVERSIM ?
+            </p>
+
+            <h2>
+              A simpler way to
+              <br />
+              understand your
+              <br />
+              <span>health cover.</span>
+            </h2>
+
+            <p className="body-copy">
+              HealthCoverSim is a private health insurance quote
+              simulator that helps you estimate your cover based on
+              your personal details, hospital cover, extras cover and
+              payment preference, so you can make informed decisions
+              for you and your family.
+            </p>
+
+          </div>
+
+          {/* Chart */}
+
+          <div
+            className="chart-wrap"
+            aria-label="Illustrative comparison chart"
+          >
+
+            <div className="chart-value">
+              50%
+            </div>
+
+            <div className="chart-rule" />
+
+<p className="chart-copy">
+  of people worldwide struggle
+  <br />
+  to cover unexpected
+  <br />
+  <strong className="chart-price">US$1,000</strong>{" "}
+  <strong className="chart-expense">medical expenses.</strong>
+</p>
+
+            <div className="bars">
+
+<div className="bar-column">
+  <div className="bar bar-1" />
+  <span className="label-high">
+    High income
+    <br />
+    countries
+  </span>
+</div>
+
+<div className="bar-column">
+  <div className="bar bar-2" />
+  <span className="label-middle">
+    Middle income
+    <br />
+    countries
+  </span>
+</div>
+
+<div className="bar-column">
+  <div className="bar bar-3" />
+  <span className="label-low">
+    Low income
+    <br />
+    countries
+  </span>
+</div>
+
+            </div>
+
+            <small className="source">
+              Source : World Health Organization (2021)
+            </small>
+
+          </div>
+
+        </section>
+
+        {/* ================= HOW IT WORKS ================= */}
+
+        <section
+          className="steps-section"
+          id="quote"
+        >
+
+          <div className="steps-heading">
+
+            <p className="section-eyebrow">
+              TAKE CONTROL OF YOUR HEALTH COVER
+            </p>
+
+            <h2>
+              Get a personalized estimate in{" "}
+              <span>minutes.</span>
+            </h2>
+
+            <p>
+              A simple and transparent way to estimate your private
+              health
+              <br className="desktop-break" />
+              insurance costs. Follow the steps below to see how it
+              works.
+            </p>
+
+          </div>
+
+          <div
+            className="steps-board"
+            id="interactive-steps"
+          >
+
+            {steps.map((step, index) => (
+              <button
+                className={`step-card ${
+                  index === 1 ? "is-active" : ""
+                }`}
+                key={step.number}
+                type="button"
+                aria-expanded={index === 1}
+                aria-controls={`step-content-${index}`}
+                onClick={activateStep}
+                onMouseEnter={handleStepHover}
+              >
+
+                <span className="step-number">
+                  {step.number}
+                </span>
+
+                <span
+                  className="step-visual"
+                  aria-hidden="true"
+                >
+                  <StepVisual index={index} />
+                </span>
+
+                <span className="step-bottom">
+
+                  <span className="step-icon">
+                    {step.icon}
+                  </span>
+
+                  <span
+                    className="step-title"
+                    id={`step-content-${index}`}
+                  >
+                    {step.title}
+                  </span>
+
+                  <span className="step-description">
+                    {step.description}
+                  </span>
+
+                  <span className="step-action">
+                    Learn more
+                    <Arrow />
+                  </span>
+
+                </span>
+
+              </button>
+            ))}
+
+          </div>
+
+        </section>
+
+      </main>
+
+      {/* ================= FOOTER ================= */}
+
+      <footer
+        className="footer"
+        id="quotes"
+      >
+
+        <HealthCoverLogo />
+
+        <p>
+          © 2026 HealthCoverSim · Private health insurance quote
+          simulator
+        </p>
+
+        <div className="footer-links">
+
+          <a href="#privacy">
+            Privacy Policy
+          </a>
+
+          <span>|</span>
+
+          <a href="#terms">
+            Terms of Use
+          </a>
+
+        </div>
+
+      </footer>
+
+    </div>
+  );
+}
