@@ -1,5 +1,6 @@
 import "./App.css";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import GetAQuote from "./GetAQuote";
 import familyHero from "./assets/family-hero.png";
 import logo from "./assets/logo.png";
 import watermarkLogo from "./assets/watermark-logo.png";
@@ -127,7 +128,7 @@ function StepVisual({ index }) {
   );
 }
 
-export default function App() {
+function HomePage() {
   const activateStep = (event) => {
     const board = event.currentTarget.parentElement;
 
@@ -180,7 +181,7 @@ export default function App() {
             Home
           </a>
 
-          <a href="#quote">
+          <a href="/quote">
             Get a Quote
           </a>
 
@@ -285,7 +286,7 @@ export default function App() {
           <img
             className="about-watermark"
             src={watermarkLogo}
-            alt="12321"
+            alt=""
             aria-hidden="true"
           />
 
@@ -495,5 +496,15 @@ export default function App() {
       </footer>
 
     </div>
+  );
+}
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/quote" element={<GetAQuote />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
