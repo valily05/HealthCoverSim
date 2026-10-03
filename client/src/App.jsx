@@ -1,13 +1,15 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import GetAQuote from "./GetAQuote";
+
 import familyHero from "./assets/family-hero.png";
 import logo from "./assets/logo.png";
 import watermarkLogo from "./assets/watermark-logo.png";
-
 import calculatorIcon from "./assets/calculator.png";
 import safeIcon from "./assets/safe.png";
 import cashIcon from "./assets/cash.png";
+
+import GetAQuote from "./GetAQuote.jsx";
+import QuoteResult from "./QuoteResult.jsx";
 
 const features = [
   {
@@ -504,6 +506,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/quote" element={<GetAQuote />} />
+        <Route path="/quote-result/:id" element={<QuoteResult />} />
       </Routes>
     </BrowserRouter>
   );

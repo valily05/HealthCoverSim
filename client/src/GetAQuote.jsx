@@ -1,5 +1,6 @@
 
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./GetAQuote.css";
 import { createQuote } from "./services/quoteService";
 import logo from "./assets/logo.png";
@@ -261,6 +262,7 @@ export default function GetAQuote() {
     discount: "0",
     notes: "",
   });
+  const navigate = useNavigate();
 const [isSaving, setIsSaving] = useState(false);
 const [saveError, setSaveError] = useState("");
 const [savedQuoteId, setSavedQuoteId] = useState(null);
@@ -468,36 +470,35 @@ const handleSaveQuote = async () => {
   const quoteData = {
     customer_name: form.customerName.trim(),
     cover_type: form.coverType,
-
     applicant1_age: Number(form.applicants[0].age),
     applicant1_previous_cover: form.applicants[0].history,
-
     applicant2_age:
       applicantCount === 2
         ? Number(form.applicants[1].age)
         : null,
-
     applicant2_previous_cover:
       applicantCount === 2
         ? form.applicants[1].history
         : null,
-
     hospital_cover: form.hospital,
     extras_cover: form.extras,
     payment_frequency: form.payment,
-
     annual_discount:
       form.payment === "Yearly"
         ? Number(form.discount)
         : 0,
-
     notes: form.notes.trim(),
   };
 
   try {
     const result = await createQuote(quoteData);
 
-    setSavedQuoteId(result.id);
+    navigate(`/quote-result/${result.id}`, {
+      state: {
+        quoteData,
+        estimate,
+      },
+    });
   } catch (error) {
     setSaveError(error.message || "Unable to save quote.");
   } finally {
@@ -899,11 +900,7 @@ const handleSaveQuote = async () => {
   </p>
 )}
 
-{savedQuoteId !== null && (
-  <p className="save-success" role="status">
-    Quote saved successfully! Reference ID: {savedQuoteId}
-  </p>
-)}
+
             </div>
           </form>
 
