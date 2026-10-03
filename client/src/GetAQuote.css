@@ -413,6 +413,37 @@ fieldset i {
   padding: 0 12px;
   
 }
+.save-quote-button {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Before all required steps are complete */
+.save-quote-button.not-ready {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Once all required steps are complete */
+.save-quote-button.ready {
+  background-color: #087f78;
+  color: white;
+}
+
+/* Hover only when the button is enabled */
+.save-quote-button.ready:hover:not(:disabled) {
+  background-color: #06645f;
+}
+
+.save-quote-button:disabled {
+  cursor: not-allowed;
+}
 
 .quote-field textarea {
   min-height: 100px;

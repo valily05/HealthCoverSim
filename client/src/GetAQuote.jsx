@@ -1,6 +1,7 @@
 
 import { useMemo, useState } from "react";
 import "./GetAQuote.css";
+import { createQuote } from "./services/quoteService";
 import logo from "./assets/logo.png";
 import {
   calculatePremium,
@@ -260,7 +261,9 @@ export default function GetAQuote() {
     discount: "0",
     notes: "",
   });
-
+const [isSaving, setIsSaving] = useState(false);
+const [saveError, setSaveError] = useState("");
+const [savedQuoteId, setSavedQuoteId] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [attemptedContinue, setAttemptedContinue] = useState(false);
 
@@ -454,7 +457,53 @@ const canShowEstimate = isValid && estimate !== null;
     setCurrentStep((step) => Math.min(step + 1, 4));
     setAttemptedContinue(false);
   };
+const handleSaveQuote = async () => {
+  if (!paymentValid || !canShowEstimate || isSaving) {
+    return;
+  }
 
+  setIsSaving(true);
+  setSaveError("");
+
+  const quoteData = {
+    customer_name: form.customerName.trim(),
+    cover_type: form.coverType,
+
+    applicant1_age: Number(form.applicants[0].age),
+    applicant1_previous_cover: form.applicants[0].history,
+
+    applicant2_age:
+      applicantCount === 2
+        ? Number(form.applicants[1].age)
+        : null,
+
+    applicant2_previous_cover:
+      applicantCount === 2
+        ? form.applicants[1].history
+        : null,
+
+    hospital_cover: form.hospital,
+    extras_cover: form.extras,
+    payment_frequency: form.payment,
+
+    annual_discount:
+      form.payment === "Yearly"
+        ? Number(form.discount)
+        : 0,
+
+    notes: form.notes.trim(),
+  };
+
+  try {
+    const result = await createQuote(quoteData);
+
+    setSavedQuoteId(result.id);
+  } catch (error) {
+    setSaveError(error.message || "Unable to save quote.");
+  } finally {
+    setIsSaving(false);
+  }
+};
   const handleReset = () => {
     setForm({
       customerName: "",
@@ -810,18 +859,7 @@ const canShowEstimate = isValid && estimate !== null;
 
             <div className="quote-form-actions">
               <div className="quote-action-left">
-                {currentStep > 1 && (
-                  <button
-                    type="button"
-                    className="back-button"
-                    onClick={() => {
-                      setCurrentStep((step) => step - 1);
-                      setAttemptedContinue(false);
-                    }}
-                  >
-                    ← Back
-                  </button>
-                )}
+                
 
                 <button
                   type="button"
@@ -832,28 +870,40 @@ const canShowEstimate = isValid && estimate !== null;
                 </button>
               </div>
 
-              {currentStep < 4 ? (
-                <button
-                  type="submit"
-                  className="continue-button"
-                >
-                  {currentStep === 1
-                    ? "Continue to Choose Cover"
-                    : currentStep === 2
-                      ? "Continue to Payment"
-                      : "View Your Estimate"}
+              
+         
+<div className="save-quote-actions">
+  <button
+    type="button"
+    className={`save-quote-button ${
+      canShowEstimate ? "ready" : "not-ready"
+    }`}
+    onClick={handleSaveQuote}
+    disabled={
+      !canShowEstimate ||
+      isSaving ||
+      savedQuoteId !== null
+    }
+  >
+    {isSaving
+      ? "Saving..."
+      : savedQuoteId !== null
+        ? "Quote Saved"
+        : "Save Quote"}
+  </button>
+</div>
 
-                  <span aria-hidden="true">→</span>
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="continue-button"
-                  onClick={() => setCurrentStep(1)}
-                >
-                  Edit quote details
-                </button>
-              )}
+{saveError && (
+  <p className="save-error" role="alert">
+    {saveError}
+  </p>
+)}
+
+{savedQuoteId !== null && (
+  <p className="save-success" role="status">
+    Quote saved successfully! Reference ID: {savedQuoteId}
+  </p>
+)}
             </div>
           </form>
 
