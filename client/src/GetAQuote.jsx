@@ -1,8 +1,12 @@
 
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import "./GetAQuote.css";
-import { createQuote } from "./services/quoteService";
+import {
+  createQuote,
+  getQuote,
+  updateQuote,
+} from "./services/quoteService";
 import logo from "./assets/logo.png";
 import {
   calculatePremium,
@@ -268,7 +272,12 @@ const [saveError, setSaveError] = useState("");
 const [savedQuoteId, setSavedQuoteId] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [attemptedContinue, setAttemptedContinue] = useState(false);
-
+const [searchParams] = useSearchParams();
+const editId = searchParams.get("edit");
+const isEditMode = Boolean(editId);
+const [isLoadingQuote, setIsLoadingQuote] = useState(
+  Boolean(editId)
+);
   const applicantCount = !form.coverType
     ? 0
     : form.coverType === "Single"
@@ -322,7 +331,66 @@ const [savedQuoteId, setSavedQuoteId] = useState(null);
       };
     });
   };
+useEffect(() => {
+  if (!editId) {
+    setIsLoadingQuote(false);
+    return;
+  }
 
+  let cancelled = false;
+
+  async function loadQuote() {
+    try {
+      setIsLoadingQuote(true);
+      setSaveError("");
+
+      const quote = await getQuote(editId);
+
+      if (cancelled) return;
+
+      setForm({
+        customerName: quote.customer_name ?? "",
+        coverType: quote.cover_type ?? "",
+        applicants: [
+          {
+            age: quote.applicant1_age?.toString() ?? "",
+            history: quote.applicant1_previous_cover ?? "",
+          },
+          ...(quote.cover_type !== "Single"
+            ? [
+                {
+                  age: quote.applicant2_age?.toString() ?? "",
+                  history: quote.applicant2_previous_cover ?? "",
+                },
+              ]
+            : []),
+        ],
+        hospital: quote.hospital_cover ?? "",
+        extras: quote.extras_cover ?? "",
+        payment: quote.payment_frequency ?? "",
+        discount: String(quote.annual_discount ?? 0),
+        notes: quote.notes ?? "",
+      });
+
+      setCurrentStep(1);
+      setAttemptedContinue(false);
+    } catch (error) {
+      if (!cancelled) {
+        setSaveError(error.message || "Unable to load quote.");
+      }
+    } finally {
+      if (!cancelled) {
+        setIsLoadingQuote(false);
+      }
+    }
+  }
+
+  loadQuote();
+
+  return () => {
+    cancelled = true;
+  };
+}, [editId]);
   const errors = useMemo(() => {
     const result = {};
 
@@ -490,20 +558,27 @@ const handleSaveQuote = async () => {
     notes: form.notes.trim(),
   };
 
-  try {
-    const result = await createQuote(quoteData);
+try {
+  let result;
 
-    navigate(`/quote-result/${result.id}`, {
-      state: {
-        quoteData,
-        estimate,
-      },
-    });
-  } catch (error) {
-    setSaveError(error.message || "Unable to save quote.");
-  } finally {
-    setIsSaving(false);
+  if (isEditMode) {
+    await updateQuote(editId, quoteData);
+    result = { id: editId };
+  } else {
+    result = await createQuote(quoteData);
   }
+
+  navigate(`/quote-result/${result.id}`, {
+    state: {
+      quoteData,
+      estimate,
+    },
+  });
+} catch (error) {
+  setSaveError(error.message || "Unable to save quote.");
+} finally {
+  setIsSaving(false);
+}
 };
   const handleReset = () => {
     setForm({
@@ -571,6 +646,9 @@ const handleSaveQuote = async () => {
             }}
             noValidate
           >
+            {isLoadingQuote && (
+  <p role="status">Loading saved quote...</p>
+)}
             {/* Step 1: Personal information */}
             <section
               className={`quote-section ${
@@ -862,37 +940,30 @@ const handleSaveQuote = async () => {
               <div className="quote-action-left">
                 
 
-                <button
-                  type="button"
-                  className="reset-button"
-                  onClick={handleReset}
-                >
-                  Reset Form
-                </button>
+<button
+  type="button"
+  className={`save-quote-button ${
+    canShowEstimate ? "ready" : "not-ready"
+  }`}
+  onClick={handleSaveQuote}
+  disabled={
+    !canShowEstimate ||
+    isSaving ||
+    isLoadingQuote
+  }
+>
+  {isSaving
+    ? isEditMode
+      ? "Updating..."
+      : "Saving..."
+    : isEditMode
+      ? "Update Quote"
+      : "Save Quote"}
+</button>
               </div>
 
               
          
-<div className="save-quote-actions">
-  <button
-    type="button"
-    className={`save-quote-button ${
-      canShowEstimate ? "ready" : "not-ready"
-    }`}
-    onClick={handleSaveQuote}
-    disabled={
-      !canShowEstimate ||
-      isSaving ||
-      savedQuoteId !== null
-    }
-  >
-    {isSaving
-      ? "Saving..."
-      : savedQuoteId !== null
-        ? "Quote Saved"
-        : "Save Quote"}
-  </button>
-</div>
 
 {saveError && (
   <p className="save-error" role="alert">

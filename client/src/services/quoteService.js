@@ -24,6 +24,10 @@ export async function createQuote(quoteData) {
   return handleResponse(response);
 }
 
+export async function getQuote(id) {
+  const response = await fetch(`${API_URL}/${id}`);
+  return handleResponse(response);
+}
 export async function getQuotes() {
   const response = await fetch(API_URL);
   return handleResponse(response);
@@ -33,7 +37,6 @@ export async function getQuoteById(id) {
   const response = await fetch(`${API_URL}/${id}`);
   return handleResponse(response);
 }
-
 export async function updateQuote(id, quoteData) {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "PUT",

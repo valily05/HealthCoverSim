@@ -1,13 +1,12 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import MyQuotes from "./MyQuotes";
 import familyHero from "./assets/family-hero.png";
 import logo from "./assets/logo.png";
 import watermarkLogo from "./assets/watermark-logo.png";
 import calculatorIcon from "./assets/calculator.png";
 import safeIcon from "./assets/safe.png";
 import cashIcon from "./assets/cash.png";
-
 import GetAQuote from "./GetAQuote.jsx";
 import QuoteResult from "./QuoteResult.jsx";
 
@@ -187,9 +186,9 @@ function HomePage() {
             Get a Quote
           </a>
 
-          <a href="#quotes">
-            My Quotes
-          </a>
+<a href="/my-quotes">
+  My Quotes
+</a>
 
           <a href="#about">
             About
@@ -503,11 +502,12 @@ function HomePage() {
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/quote" element={<GetAQuote />} />
-        <Route path="/quote-result/:id" element={<QuoteResult />} />
-      </Routes>
+<Routes>
+  <Route path="/" element={<HomePage />} />
+  <Route path="/quote" element={<GetAQuote />} />
+  <Route path="/quote-result/:id" element={<QuoteResult />} />
+  <Route path="/my-quotes" element={<MyQuotes />} />
+</Routes>
     </BrowserRouter>
   );
 }
