@@ -200,6 +200,49 @@ button {
   transition: width 0.2s ease;
 }
 
+.mini-cover {
+  overflow: hidden;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.mini-cover img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
+}
+.step-icon img {
+  display: block;
+  object-fit: contain;
+}
+
+/* Step 1 - Clipboard */
+.step-icon-1 img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Step 2 - Cover */
+.step-icon-2 img {
+  width: 25px;
+  height: 25px;
+}
+
+/* Step 3 - Eye */
+.step-icon-3 img {
+  width: 27px;
+  height: 27px;
+}
+
+/* Step 4 - Save */
+.step-icon-4 img {
+  width: 27px;
+  height: 27px;
+}
 .nav a:hover::after,
 .nav a.active::after {
   width: 100%;
@@ -790,7 +833,10 @@ button {
     0 13px 30px rgba(25, 91, 98, 0.13),
     0 0 0 3px rgba(255, 216, 79, 0.65);
 }
-
+.step-card:nth-child(2) .step-title {
+  white-space: nowrap;
+  font-size: 20px;
+}
 .step-number {
   display: block;
 
@@ -806,13 +852,13 @@ button {
 .step-visual {
   position: absolute;
 
-  top: 76px;
+  top: 50px;
 
-  right: 22px;
+  right: 20px;
 
   width: 0;
 
-  height: 118px;
+  height: 200px;
 
   opacity: 0;
 
@@ -883,38 +929,9 @@ button {
   width: 56%;
 }
 
-.mini-cover {
-  display: grid;
 
-  place-items: center;
-}
 
-.cover-shield {
-  width: 65px;
 
-  height: 76px;
-
-  display: grid;
-
-  place-items: center;
-
-  background: #2d847d;
-
-  color: #ffffff;
-
-  clip-path: polygon(
-    50% 0%,
-    92% 15%,
-    84% 67%,
-    50% 100%,
-    16% 67%,
-    8% 15%
-  );
-
-  font-size: 28px;
-
-  font-weight: 800;
-}
 
 .mini-estimate {
   padding: 18px;
@@ -1426,7 +1443,30 @@ button {
     transform: none;
   }
 
-  .step-card.is-active .step-visual {
-    width: 42%;
-  }
+.mini-cover {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  background: transparent;
+  border: none;
+  border-radius: 14px;
+}
+
+/* Make the actual cover cards much larger */
+.mini-cover img {
+  position: absolute;
+
+  width: 175%;
+  height: 100%;
+
+  max-width: none;
+  object-fit: cover;
+
+  right: -8%;
+  top: 0;
+
+  border-radius: 14px;
+}
 }

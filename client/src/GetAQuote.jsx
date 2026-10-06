@@ -623,7 +623,6 @@ try {
             Get a Quote
           </a>
           <a href="/my-quotes">My Quotes</a>
-          <a href="/#about">About</a>
         </nav>
       </header>
 

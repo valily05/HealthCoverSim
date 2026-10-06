@@ -5,10 +5,15 @@ import familyHero from "./assets/family-hero.png";
 import logo from "./assets/logo.png";
 import watermarkLogo from "./assets/watermark-logo.png";
 import calculatorIcon from "./assets/calculator.png";
-import safeIcon from "./assets/safe.png";
 import cashIcon from "./assets/cash.png";
 import GetAQuote from "./GetAQuote.jsx";
 import QuoteResult from "./QuoteResult.jsx";
+
+import clipboardIcon from "./assets/clipboard.png";
+import coverIcon from "./assets/cover.png";
+import eyeIcon from "./assets/eye.png";
+import safeIcon from "./assets/save.png";
+
 
 const features = [
   {
@@ -29,30 +34,30 @@ const features = [
 ];
 
 const steps = [
-  {
-    number: "01.",
-    icon: "▣",
-    title: "Enter Your Details",
-    description:
-      "Enter your name, cover type, age and hospital cover history.",
-  },
+{
+  number: "01.",
+  icon: clipboardIcon,
+  title: "Enter Your Details",
+  description:
+    "Enter your name, cover type, age and hospital cover history.",
+},
   {
     number: "02.",
-    icon: "⌁",
+    icon: coverIcon,
     title: "Choose Your Cover Options",
     description:
       "Select your hospital and extras cover levels from the available options.",
   },
   {
     number: "03.",
-    icon: "◉",
+    icon: eyeIcon,
     title: "View Your Estimate",
     description:
       "Choose Monthly or Yearly and see how your estimated premium is calculated.",
   },
   {
     number: "04.",
-    icon: "▣",
+    icon: safeIcon,
     title: "Save and Manage",
     description:
       "Save your quote so you can view, edit, update or delete it later.",
@@ -91,43 +96,7 @@ function FeatureIcon({ src, alt }) {
   );
 }
 
-function StepVisual({ index }) {
-  if (index === 0) {
-    return (
-      <div className="mini-form">
-        <span />
-        <span />
-        <span />
-      </div>
-    );
-  }
 
-  if (index === 1) {
-    return (
-      <div className="mini-cover">
-        <div className="cover-shield">
-          ✓
-        </div>
-      </div>
-    );
-  }
-
-  if (index === 2) {
-    return (
-      <div className="mini-estimate">
-        <span className="mini-price">$135</span>
-        <span className="mini-line" />
-        <span className="mini-line short" />
-      </div>
-    );
-  }
-
-  return (
-    <div className="mini-save">
-      <span>♡</span>
-    </div>
-  );
-}
 
 function HomePage() {
   const activateStep = (event) => {
@@ -190,9 +159,7 @@ function HomePage() {
   My Quotes
 </a>
 
-          <a href="#about">
-            About
-          </a>
+        
         </nav>
 
       </header>
@@ -233,7 +200,7 @@ function HomePage() {
 
             <a
               className="primary-button"
-              href="#quote"
+              href="/quote"
             >
               Get a Quote
               <Arrow />
@@ -426,19 +393,13 @@ function HomePage() {
                   {step.number}
                 </span>
 
-                <span
-                  className="step-visual"
-                  aria-hidden="true"
-                >
-                  <StepVisual index={index} />
-                </span>
+
 
                 <span className="step-bottom">
 
-                  <span className="step-icon">
-                    {step.icon}
-                  </span>
-
+<span className={`step-icon step-icon-${index + 1}`}>
+  <img src={step.icon} alt="" />
+</span>
                   <span
                     className="step-title"
                     id={`step-content-${index}`}

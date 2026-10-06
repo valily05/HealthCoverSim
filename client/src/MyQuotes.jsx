@@ -132,7 +132,6 @@ export default function MyQuotes() {
           <Link to="/my-quotes" className="active">
             My Quotes
           </Link>
-          <a href="/#about">About</a>
         </nav>
       </header>
 
