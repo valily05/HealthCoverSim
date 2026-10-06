@@ -496,4 +496,4 @@ Business Information Systems
 BINUS University International
 
 HealthCoverSim  
-Semester 2, 2026
+October 6, 2026
