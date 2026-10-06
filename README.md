@@ -55,31 +55,6 @@ The application allows users to create, view, edit, update, and delete health in
 
 ---
 
-## Project Structure
-
-
-HealthCoverSim/
-│
-├── client/
-│   ├── public/
-│   ├── src/
-│   ├── package.json
-│   ├── package-lock.json
-│   └── vite.config.js
-│
-├── server/
-│   ├── routes/
-│   │   └── quotes.js
-│   ├── db.js
-│   ├── init.sql
-│   ├── package.json
-│   ├── package-lock.json
-│   └── server.js
-│
-└── README.md
-
-
----
 
 # Installation and Setup
 
